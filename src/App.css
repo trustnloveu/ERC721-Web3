@@ -22,7 +22,7 @@
 }
 
 .token-list li {
-  display: flex;
+  display: block;
   margin-bottom: 1rem;
 }
 

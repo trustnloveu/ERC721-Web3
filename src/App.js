@@ -48,6 +48,9 @@ function App() {
     if (nftData) {
       const nftContract = new web3.eth.Contract(UNFT.abi, nftData.address);
 
+      const test = await nftContract.methods.tokenURI(3).call();
+      console.log(test);
+
       const tokenName = await nftContract.methods.name().call();
       const tokenSymbol = await nftContract.methods.symbol().call();
       const accountBalance = await nftContract.methods
@@ -80,7 +83,7 @@ function App() {
   const createToken = async () => {
     if (tokenContract) {
       await tokenContract.methods
-        .createToken(tokenURI)
+        .createToken(tokenURI.toString())
         .send({ from: account }) // meg.sender
         .on("transactionHash", (hash) => {
           console.log("Transaction Hash");
@@ -109,10 +112,6 @@ function App() {
           tokenMap.tokenOwner = await tokenContract.methods
             .ownerOf(tokenId)
             .call();
-
-          // let tokenURI = "";
-          // tokenURI = await tokenContract.methods.tokenURI(tokenId).call();
-          // console.log(tokenURI);
 
           tokenList.push(tokenMap);
           console.log(tokenMap);
@@ -144,9 +143,9 @@ function App() {
           <button onClick={displayList}>리스트 보기</button>
           {tokenList.length > 0 &&
             tokenList.map((token) => (
-              <li key={token.tokenId}>
-                <div>{token.tokenId} ::: </div>
-                <div>{token.tokenOwner}</div>
+              <li className="text-left" key={token.tokenId}>
+                <div>토큰 ID ::: {token.tokenId}</div>
+                <div>토큰 소유 주소 ::: {token.tokenOwner}</div>
               </li>
             ))}
         </section>

@@ -34,7 +34,7 @@ contract UNFT is ERC721URIStorage, ERC721Enumerable {
     // }
 
     // 토큰 URI
-    function tokenURI(uint256 _tokenId) public view override(ERC721URIStorage, ERC721) returns (string memory) { 
+    function tokenURI(uint256 _tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) { 
         return tokenURI(_tokenId);
     }
 
