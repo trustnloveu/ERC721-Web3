@@ -24,9 +24,34 @@ contract UNFT is ERC721URIStorage, ERC721Enumerable {
     /****************************** Getter ******************************/
 
     // 토큰 URI
-    function tokenURI(uint256 _tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) { 
+    // function name() public view override returns (string memory) { 
+    //     return name();
+    // }
+
+    // 토큰 URI
+    // function symbol() public view override returns (string memory) { 
+    //     return symbol();
+    // }
+
+    // 토큰 URI
+    function tokenURI(uint256 _tokenId) public view override(ERC721URIStorage, ERC721) returns (string memory) { 
         return tokenURI(_tokenId);
     }
+
+    // 토큰 총 발행량
+    // function totalSupply() public view override returns (uint256) { 
+    //     return totalSupply();
+    // }
+
+    // 토큰 조회 <- Index
+    // function tokenByIndex(uint256 _index) public view virtual override returns (uint256) {
+    //     return tokenByIndex(_index);
+    // }
+
+    // 특정 주소 토큰 조회 <- Index
+    // function tokenOfOwnerByIndex(address _owner, uint256 _index) public view virtual override returns (uint256) {
+    //     return tokenOfOwnerByIndex(_owner, _index);
+    // }
 
     /****************************** 토큰 발행 ******************************/
 
@@ -38,7 +63,8 @@ contract UNFT is ERC721URIStorage, ERC721Enumerable {
         _safeMint(msg.sender, newTokenId); // 토큰 발행
         _setTokenURI(newTokenId, _tokenURI); // 토큰 URI 설정
 
-        emit Approval(msg.sender, msg.sender, newTokenId); // Event -> 프론트
+        // emit Approval(msg.sender, msg.sender, newTokenId); // Event -> 프론트
+        emit CreateToken(newTokenId);
 
         return newTokenId;
     }
@@ -51,7 +77,8 @@ contract UNFT is ERC721URIStorage, ERC721Enumerable {
         _safeMint(msg.sender, newTokenId, _data); // 토큰 발행
         _setTokenURI(newTokenId, _tokenURI); // 토큰 URI 설정
 
-        emit Approval(msg.sender, msg.sender, newTokenId); // Event -> 프론트
+        // emit Approval(msg.sender, msg.sender, newTokenId); // Event -> 프론트
+        emit CreateToken(newTokenId);
 
         return newTokenId;
     }

@@ -20,3 +20,12 @@
 .text-left div {
   margin-bottom: 1rem;
 }
+
+.token-list li {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.token-list li div {
+  font-size: 10pt;
+}

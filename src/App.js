@@ -14,6 +14,9 @@ function App() {
   const [tokenSymbol, setTokenSymbol] = useState(""); // 토큰 URI
   const [tokenURI, setTokenURI] = useState(""); // 토큰 URI
 
+  //* 토큰 리스트
+  const [tokenList, setTokenList] = useState([]);
+
   //* 계정 정보
   const [account, setAccount] = useState("");
   const [tokenBalance, setTokenBalance] = useState(0);
@@ -90,6 +93,35 @@ function App() {
     }
   };
 
+  //* 리스트 출력
+  const displayList = async () => {
+    if (tokenContract) {
+      const tokenList = [];
+      const totalSupply = await tokenContract.methods.totalSupply().call();
+
+      if (totalSupply) {
+        for (let i = 0; i < totalSupply; i++) {
+          const tokenMap = {};
+
+          const tokenId = await tokenContract.methods.tokenByIndex(i).call();
+
+          tokenMap.tokenId = tokenId;
+          tokenMap.tokenOwner = await tokenContract.methods
+            .ownerOf(tokenId)
+            .call();
+
+          // let tokenURI = "";
+          // tokenURI = await tokenContract.methods.tokenURI(tokenId).call();
+          // console.log(tokenURI);
+
+          tokenList.push(tokenMap);
+          console.log(tokenMap);
+        }
+        setTokenList([...tokenList]);
+      }
+    }
+  };
+
   //* Return
   return (
     <div className="App">
@@ -108,6 +140,16 @@ function App() {
             <button onClick={createToken}>토큰발행</button>
           </div>
         </div>
+        <section className="token-list">
+          <button onClick={displayList}>리스트 보기</button>
+          {tokenList.length > 0 &&
+            tokenList.map((token) => (
+              <li key={token.tokenId}>
+                <div>{token.tokenId} ::: </div>
+                <div>{token.tokenOwner}</div>
+              </li>
+            ))}
+        </section>
       </main>
     </div>
   );
